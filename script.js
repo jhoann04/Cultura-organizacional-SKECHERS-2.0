@@ -1,236 +1,191 @@
-// ===== VARIABLES =====
-let banco = [];
-let indice = 0;
-let puntaje = 0;
-let tiempo = 900; // 15 minutos
+// ====== VARIABLES ======
+let jugador = {
+    nombre: "",
+    cm: "",
+    puntaje: 0,
+    preguntaActual: 0
+};
 
-// ===== MEZCLAR ARRAY =====
-function mezclar(array) {
-    return [...array].sort(() => Math.random() - 0.5);
-}
+const pantallaInicio = document.getElementById("inicio");
+const pantallaQuiz = document.getElementById("quiz");
+const pantallaFinal = document.getElementById("resultado");
 
-// ===== INICIAR =====
-window.onload = () => {
+const nombreInput = document.getElementById("nombre");
+const cmInput = document.getElementById("cm");
 
-    banco = mezclar(preguntas);
+const pregunta = document.getElementById("pregunta");
+const respuestas = document.getElementById("respuestas");
 
-    document.getElementById("btnComenzar").onclick = iniciar;
+const barra = document.getElementById("barra");
+
+const btnInicio = document.getElementById("btnInicio");
+const btnSiguiente = document.getElementById("btnSiguiente");
+
+const textoFinal = document.getElementById("textoFinal");
+
+let preguntas = [];
+
+// ====== INICIAR ======
+btnInicio.onclick = () => {
+
+    if(nombreInput.value.trim()=="" || cmInput.value.trim()==""){
+        alert("Debes ingresar Nombre y CM");
+        return;
+    }
+
+    jugador.nombre = nombreInput.value;
+    jugador.cm = cmInput.value;
+
+    preguntas = [...DATA];
+
+    preguntas.sort(()=>Math.random()-0.5);
+
+    pantallaInicio.style.display="none";
+    pantallaQuiz.style.display="block";
+
+    mostrarPregunta();
 
 };
 
-// ===== INICIAR EXAMEN =====
-function iniciar(){
+// ====== MOSTRAR PREGUNTA ======
+function mostrarPregunta(){
 
-    document.getElementById("bienvenida").style.display="none";
+    if(jugador.preguntaActual>=preguntas.length){
+        terminar();
+        return;
+    }
 
-    document.getElementById("evaluacion").style.display="block";
+    let p = preguntas[jugador.preguntaActual];
 
-    iniciarCronometro();
+    barra.style.width=((jugador.preguntaActual/preguntas.length)*100)+"%";
+
+    pregunta.innerHTML=(jugador.preguntaActual+1)+". "+p.pregunta;
+
+    respuestas.innerHTML="";
+
+    if(p.tipo=="texto"){
+
+        respuestas.innerHTML=`
+        <input id="respuestaTexto"
+        placeholder="Escribe tu respuesta">
+        `;
+
+    }else{
+
+        let opciones=[...p.opciones];
+
+        opciones.sort(()=>Math.random()-0.5);
+
+        opciones.forEach(op=>{
+
+            respuestas.innerHTML+=`
+            <button class="opcion">${op}</button>
+            `;
+
+        });
+
+        document.querySelectorAll(".opcion").forEach(btn=>{
+
+            btn.onclick=()=>{
+
+                document.querySelectorAll(".opcion").forEach(b=>b.classList.remove("seleccion"));
+
+                btn.classList.add("seleccion");
+
+            }
+
+        });
+
+    }
+
+}
+
+// ====== SIGUIENTE ======
+btnSiguiente.onclick=()=>{
+
+    let p=preguntas[jugador.preguntaActual];
+
+    if(p.tipo=="texto"){
+
+        let r=document.getElementById("respuestaTexto").value.trim().toLowerCase();
+
+        if(r==""){
+            alert("Escribe una respuesta.");
+            return;
+        }
+
+        if(r==p.correcta.toLowerCase()){
+            jugador.puntaje++;
+        }
+
+    }
+
+    else{
+
+        let seleccion=document.querySelector(".seleccion");
+
+        if(!seleccion){
+            alert("Selecciona una respuesta.");
+            return;
+        }
+
+        if(seleccion.innerHTML==p.correcta){
+            jugador.puntaje++;
+        }
+
+    }
+
+    jugador.preguntaActual++;
 
     mostrarPregunta();
 
 }
 
-// ===== CRONÓMETRO =====
-function iniciarCronometro(){
+// ====== FINAL ======
+function terminar(){
 
-setInterval(()=>{
+    pantallaQuiz.style.display="none";
 
-tiempo--;
+    pantallaFinal.style.display="block";
 
-let min=Math.floor(tiempo/60);
+    barra.style.width="100%";
 
-let seg=tiempo%60;
+    let porcentaje=Math.round((jugador.puntaje/preguntas.length)*100);
 
-document.getElementById("cronometro").innerHTML=
+    let mensaje="";
 
-`${min}:${seg.toString().padStart(2,"0")}`;
+    if(porcentaje>=90){
 
-if(tiempo<=0){
+        mensaje="🏆 Excelente.";
 
-finalizar();
+    }
 
-}
+    else if(porcentaje>=70){
 
-},1000);
+        mensaje="👏 Muy buen trabajo.";
 
-}
+    }
 
-// ===== MOSTRAR PREGUNTA =====
-function mostrarPregunta(){
+    else if(porcentaje>=50){
 
-let p=banco[indice];
+        mensaje="🙂 Puedes mejorar.";
 
-document.getElementById("numero").innerHTML=
+    }
 
-`Pregunta ${indice+1} de ${banco.length}`;
+    else{
 
-document.getElementById("pregunta").innerHTML=p.pregunta;
+        mensaje="📚 Necesitas repasar la Cultura Organizacional.";
 
-let zona=document.getElementById("respuestas");
+    }
 
-zona.innerHTML="";
+    textoFinal.innerHTML=`
+    <h2>${jugador.nombre}</h2>
 
-// OPCIONES
+    <h1>${porcentaje}%</h1>
 
-if(p.tipo=="opcion" || p.tipo=="caso"){
+    <p>${jugador.puntaje} de ${preguntas.length} respuestas correctas.</p>
 
-let opciones=mezclar(p.opciones);
-
-opciones.forEach(op=>{
-
-let b=document.createElement("button");
-
-b.className="opcion";
-
-b.innerHTML=op;
-
-b.onclick=()=>responder(op);
-
-zona.appendChild(b);
-
-});
-
-}
-
-// VERDADERO/FALSO
-
-else if(p.tipo=="verdadero"){
-
-["Verdadero","Falso"].forEach(txt=>{
-
-let b=document.createElement("button");
-
-b.className="opcion";
-
-b.innerHTML=txt;
-
-b.onclick=()=>{
-
-let valor=(txt=="Verdadero");
-
-responder(valor);
-
-};
-
-zona.appendChild(b);
-
-});
-
-}
-
-// RELLENAR
-
-else{
-
-let input=document.createElement("input");
-
-input.placeholder="Escribe tu respuesta";
-
-input.id="respuestaTexto";
-
-zona.appendChild(input);
-
-let b=document.createElement("button");
-
-b.innerHTML="Responder";
-
-b.onclick=()=>{
-
-responder(document.getElementById("respuestaTexto").value);
-
-};
-
-zona.appendChild(b);
-
-}
-
-// Barra progreso
-
-document.getElementById("barra").style.width=
-
-`${((indice)/banco.length)*100}%`;
-
-}
-
-// ===== RESPONDER =====
-function responder(valor){
-
-let correcta=banco[indice].correcta || banco[indice].respuesta;
-
-if(typeof(valor)=="string"){
-
-if(valor.toLowerCase().trim()==correcta.toLowerCase().trim()){
-
-puntaje++;
-
-}
-
-}else{
-
-if(valor===correcta){
-
-puntaje++;
-
-}
-
-}
-
-indice++;
-
-if(indice>=banco.length){
-
-finalizar();
-
-}else{
-
-mostrarPregunta();
-
-}
-
-}
-
-// ===== FINAL =====
-function finalizar(){
-
-let porcentaje=Math.round((puntaje/banco.length)*100);
-
-document.getElementById("evaluacion").style.display="none";
-
-document.getElementById("resultado").style.display="block";
-
-document.getElementById("nota").innerHTML=
-
-`${porcentaje}%`;
-
-let mensaje="";
-
-if(porcentaje>=90){
-
-mensaje="🏆 ¡Excelente! Eres un experto en la Cultura Organizacional.";
-
-}else if(porcentaje>=70){
-
-mensaje="🎉 Muy buen trabajo. Continúa fortaleciendo tus conocimientos.";
-
-}else{
-
-mensaje="📚 Necesitas reforzar algunos temas y volver a intentarlo.";
-
-}
-
-document.getElementById("mensaje").innerHTML=mensaje;
-
-if(typeof confetti==="function"){
-
-confetti({
-
-particleCount:250,
-
-spread:180
-
-});
-
-}
+    <h3>${mensaje}</h3>
+    `;
 
 }
