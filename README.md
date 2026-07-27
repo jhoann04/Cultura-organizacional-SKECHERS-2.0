@@ -1,0 +1,1 @@
+# Cultura-organizacional-SKECHERS-2.0
