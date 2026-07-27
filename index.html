@@ -4,59 +4,78 @@
 <head>
 
 <meta charset="UTF-8">
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Cultura Organizacional SKECHERS 2.0</title>
+<title>Evaluación Cultura Organizacional | SKECHERS 3.0</title>
 
 <link rel="stylesheet" href="style.css">
 
-<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
 
 </head>
 
 <body>
 
-<div id="particles"></div>
+<div class="background"></div>
 
-<!-- BIENVENIDA -->
+<!-- PANTALLA DE INICIO -->
 
-<section id="bienvenida" class="pantalla">
+<section id="inicio">
 
 <div class="card">
 
-<img src="https://upload.wikimedia.org/wikipedia/commons/8/87/Skechers_logo.svg"
-class="logo">
+<img id="logoEmpresa" src="assets/logo.png">
 
-<h1>Evaluación Cultura Organizacional</h1>
+<h1>
+Evaluación Cultura Organizacional
+</h1>
 
-<h2>SKECHERS</h2>
+<h2>
+SKECHERS
+</h2>
 
-<p>
+<p class="descripcion">
 
-Pon a prueba tus conocimientos sobre:
+Bienvenido.
+
+Esta evaluación medirá tus conocimientos acerca de:
 
 </p>
 
-<ul>
+<div class="lista">
 
-<li>✔ Cultura Organizacional</li>
+<div>✔ Cultura Organizacional</div>
 
-<li>✔ Misión y Visión</li>
+<div>✔ Misión</div>
 
-<li>✔ Competencias</li>
+<div>✔ Visión</div>
 
-<li>✔ Magia con una Sonrisa</li>
+<div>✔ Competencias Esenciales</div>
 
-<li>✔ Seguridad</li>
+<div>✔ Atributos de Marca</div>
 
-<li>✔ Atención al Cliente</li>
+<div>✔ Magia con una Sonrisa</div>
 
-</ul>
+<div>✔ Seguridad</div>
 
-<input id="nombre" placeholder="Nombre completo">
+<div>✔ Atención al Cliente</div>
 
-<input id="cm" placeholder="CM">
+</div>
+
+<input
+type="text"
+id="nombre"
+placeholder="Nombre completo">
+
+<input
+type="text"
+id="cm"
+placeholder="CM">
 
 <button id="btnComenzar">
 
@@ -70,11 +89,21 @@ Pon a prueba tus conocimientos sobre:
 
 <!-- EVALUACIÓN -->
 
-<section id="evaluacion" style="display:none;">
+<section
+id="quiz"
+style="display:none;">
 
 <header>
 
-<h2 id="numero"></h2>
+<div>
+
+<h3 id="contador">
+
+Pregunta 1 de 20
+
+</h3>
+
+</div>
 
 <div id="cronometro">
 
@@ -84,53 +113,70 @@ Pon a prueba tus conocimientos sobre:
 
 </header>
 
-<div class="progreso">
+<div class="barra">
 
-<div id="barra"></div>
+<div id="progreso"></div>
 
 </div>
 
-<div class="preguntaCard">
+<div class="cardPregunta">
 
-<h1 id="pregunta"></h1>
+<h2 id="pregunta">
 
-<div id="respuestas"></div>
+Pregunta
+
+</h2>
+
+<div id="respuestas">
+
+</div>
+
+<button id="btnSiguiente">
+
+Siguiente →
+
+</button>
 
 </div>
 
 </section>
 
-<!-- RESULTADO -->
+<!-- RESULTADOS -->
 
-<section id="resultado"
-
+<section
+id="resultado"
 style="display:none;">
 
 <div class="card">
 
+<img
+src="assets/trofeo.png"
+class="trofeo">
+
 <h1>
 
-🎉 Evaluación Finalizada
+Evaluación Finalizada
 
 </h1>
 
-<h2>
+<div id="porcentaje">
 
-Resultado
-
-</h2>
-
-<div id="nota"
-
-class="nota">
-
-0%
+100%
 
 </div>
 
-<p id="mensaje"></p>
+<h2 id="mensaje">
 
-<button onclick="location.reload()">
+Excelente trabajo
+
+</h2>
+
+<p id="detalle">
+
+</p>
+
+<button
+onclick="location.reload()">
 
 Realizar nuevamente
 
