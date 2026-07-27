@@ -16,12 +16,15 @@ const cmInput = document.getElementById("cm");
 const pregunta = document.getElementById("pregunta");
 const respuestas = document.getElementById("respuestas");
 
-const barra = document.getElementById("barra");
+const barra = document.getElementById("progreso");     // antes: "barra" (no existía)
 
-const btnInicio = document.getElementById("btnInicio");
+const btnInicio = document.getElementById("btnComenzar"); // antes: "btnInicio" (no existía)
 const btnSiguiente = document.getElementById("btnSiguiente");
 
-const textoFinal = document.getElementById("textoFinal");
+// Elementos de la pantalla final (antes se buscaba "textoFinal", que no existe)
+const elPorcentaje = document.getElementById("porcentaje");
+const elMensaje = document.getElementById("mensaje");
+const elDetalle = document.getElementById("detalle");
 
 let preguntas = [];
 
@@ -178,14 +181,8 @@ function terminar(){
 
     }
 
-    textoFinal.innerHTML=`
-    <h2>${jugador.nombre}</h2>
-
-    <h1>${porcentaje}%</h1>
-
-    <p>${jugador.puntaje} de ${preguntas.length} respuestas correctas.</p>
-
-    <h3>${mensaje}</h3>
-    `;
+    elPorcentaje.innerHTML = porcentaje + "%";
+    elMensaje.innerHTML = mensaje;
+    elDetalle.innerHTML = `${jugador.nombre} (CM: ${jugador.cm}) — ${jugador.puntaje} de ${preguntas.length} respuestas correctas.`;
 
 }
