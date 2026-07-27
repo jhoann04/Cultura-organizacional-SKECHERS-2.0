@@ -1,1 +1,149 @@
+<!DOCTYPE html>
+<html lang="es">
 
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Cultura Organizacional SKECHERS 2.0</title>
+
+<link rel="stylesheet" href="style.css">
+
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+</head>
+
+<body>
+
+<div id="particles"></div>
+
+<!-- BIENVENIDA -->
+
+<section id="bienvenida" class="pantalla">
+
+<div class="card">
+
+<img src="https://upload.wikimedia.org/wikipedia/commons/8/87/Skechers_logo.svg"
+class="logo">
+
+<h1>Evaluación Cultura Organizacional</h1>
+
+<h2>SKECHERS</h2>
+
+<p>
+
+Pon a prueba tus conocimientos sobre:
+
+</p>
+
+<ul>
+
+<li>✔ Cultura Organizacional</li>
+
+<li>✔ Misión y Visión</li>
+
+<li>✔ Competencias</li>
+
+<li>✔ Magia con una Sonrisa</li>
+
+<li>✔ Seguridad</li>
+
+<li>✔ Atención al Cliente</li>
+
+</ul>
+
+<input id="nombre" placeholder="Nombre completo">
+
+<input id="cm" placeholder="CM">
+
+<button id="btnComenzar">
+
+🚀 Comenzar Evaluación
+
+</button>
+
+</div>
+
+</section>
+
+<!-- EVALUACIÓN -->
+
+<section id="evaluacion" style="display:none;">
+
+<header>
+
+<h2 id="numero"></h2>
+
+<div id="cronometro">
+
+15:00
+
+</div>
+
+</header>
+
+<div class="progreso">
+
+<div id="barra"></div>
+
+</div>
+
+<div class="preguntaCard">
+
+<h1 id="pregunta"></h1>
+
+<div id="respuestas"></div>
+
+</div>
+
+</section>
+
+<!-- RESULTADO -->
+
+<section id="resultado"
+
+style="display:none;">
+
+<div class="card">
+
+<h1>
+
+🎉 Evaluación Finalizada
+
+</h1>
+
+<h2>
+
+Resultado
+
+</h2>
+
+<div id="nota"
+
+class="nota">
+
+0%
+
+</div>
+
+<p id="mensaje"></p>
+
+<button onclick="location.reload()">
+
+Realizar nuevamente
+
+</button>
+
+</div>
+
+</section>
+
+<script src="data.js"></script>
+
+<script src="script.js"></script>
+
+</body>
+
+</html>
